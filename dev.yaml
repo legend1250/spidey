@@ -1,0 +1,40 @@
+version: "3.6"
+
+services:
+  account:
+    build:
+      context: "."
+      dockerfile: "./account/dev.dockerfile"
+    depends_on:
+      - "account_db"
+    volumes:
+      - ./account:/go/src/github.com/tinrab/spidey/account
+    expose:
+      - 8080
+    environment:
+      DATABASE_URL: "postgres://spidey:123456@account_db/spidey?sslmode=disable"
+    command: realize start
+
+  graphql:
+    build:
+      context: "."
+      dockerfile: "./graphql/app.dockerfile"
+    ports:
+      - "8000:8080"
+    depends_on:
+      - "account"
+      # - "catalog"
+    environment:
+      ACCOUNT_SERVICE_URL: "account:8080"
+      CATALOG_SERVICE_URL: "catalog:8080"
+      ORDER_SERVICE_URL: "order:8080"
+
+  account_db:
+    build:
+      context: "./account"
+      dockerfile: "./db.dockerfile"
+    environment:
+      POSTGRES_DB: "spidey"
+      POSTGRES_USER: "spidey"
+      POSTGRES_PASSWORD: "123456"
+    restart: "unless-stopped"

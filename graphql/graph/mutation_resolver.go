@@ -16,7 +16,7 @@ type mutationResolver struct {
   server *Server
 }
 
-func (r *mutationResolver)  	CreateAccount(ctx context.Context, in AccountInput) (*Account, error) {
+func (r *mutationResolver) CreateAccount(ctx context.Context, in AccountInput) (*Account, error) {
   ctx, cancel := context.WithTimeout(ctx, 3*time.Second)
   defer cancel()
 

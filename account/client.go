@@ -47,6 +47,7 @@ func (c *Client) GetAccount(ctx context.Context, id string) (*Account, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return &Account{
 		ID:   r.Account.Id,
 		Name: r.Account.Name,

@@ -85,6 +85,17 @@ func (r *elasticRepository) GetProductByID(ctx context.Context, id string) (*Pro
 }
 
 func (r *elasticRepository) ListProducts(ctx context.Context, skip, take uint64) ([]Product, error) {
+
+	exist, err := r.client.IndexExists("catalog").Do(context.Background())
+
+	if !exist {
+		return []Product{}, nil
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
 	res, err := r.client.Search().
 		Index("catalog").
 		Type("product").

@@ -1,0 +1,24 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+- name: account-server
+  path: .
+  commands:
+    install:
+      status: true
+      method: go build -o /go/bin/account-server /go/src/github.com/tinrab/spidey/account/cmd/account/main.go
+    run:
+      status: true
+      method: /go/bin/account-server
+  watcher:
+    extensions:
+    - go
+    paths:
+    - /
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor
+    - public

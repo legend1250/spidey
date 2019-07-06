@@ -1,4 +1,4 @@
-FROM golang:1.11.0-alpine3.8 AS build
+FROM golang:1.12.6-alpine3.9 AS build
 RUN apk --no-cache add gcc g++ make ca-certificates
 WORKDIR /go/src/github.com/tinrab/spidey/order
 COPY vendor ../vendor
